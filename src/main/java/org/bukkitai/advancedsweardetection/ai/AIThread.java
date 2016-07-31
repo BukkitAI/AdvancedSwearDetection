@@ -90,7 +90,7 @@ public class AIThread extends Thread {
 					if (StringUtils.getJaroWinklerDistance(message, word) < 0.8) {
 					//Mark as okay
 					}
-					if (StringUtils.getJaroWinklerDistance(message, word) > 0.8) {
+					if (StringUtils.getJaroWinklerDistance(finalWord, word) > 0.8) {
 					AIThread.BLACKLIST.add(message.toLowerCase());
 					
 					//Marked as blacklisted
