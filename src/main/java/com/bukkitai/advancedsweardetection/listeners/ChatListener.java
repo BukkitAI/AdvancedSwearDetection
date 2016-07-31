@@ -14,7 +14,7 @@ public class ChatListener implements Listener {
 		for(String word : event.getMessage().split("\\s")) {
 			if(Main.getInstance().getAIThread().isBlacklisted(word)) {
 				event.setCancelled(true);
-				event.getPlayer().sendMessage("Do not swear!");
+				event.getPlayer().sendMessage( ChatColor.DARK_RED + "Do not swear!");
 				return;
 			}
 		}
