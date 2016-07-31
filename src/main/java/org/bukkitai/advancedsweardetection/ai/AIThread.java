@@ -27,7 +27,7 @@ public class AIThread extends Thread {
 	private long lastDBLookup = 0;
 
 	static {
-		TO_STRIP.addAll(Arrays.asList("'", "\"", "_", "-", "+", "*", "]",  "}", "\\", "|", ",", ".",  ">", "/", "?",";","#","^","%"));
+		TO_STRIP.addAll(Arrays.asList("'", "\"", "_", "-", "+", "*", "]",  "}", "\\", "|", ",", ".", ">", "/", "?",";","#","^","%"));
 	}
 
 	@Override
