@@ -9,6 +9,7 @@ import org.bukkitai.advancedsweardetection.listeners.ChatListener;
 public class Main extends JavaPlugin {
 	public static File DICTONARY_FILE;
 	public static File BAD_WORD_FILE;
+	public static File SLANG_FILE;
 
 	private AIThread aiThread;
 	private static Main instance;
@@ -19,12 +20,16 @@ public class Main extends JavaPlugin {
 
 		DICTONARY_FILE = new File(getDataFolder(), "dictonary.txt");
 		BAD_WORD_FILE = new File(getDataFolder(), "bad_words.txt");
+		SLANG_FILE = new File(getDataFolder(), "slang.txt")
 
 		if (!DICTONARY_FILE.exists())
 			saveResource("dictonary.txt", false);
 
 		if (!BAD_WORD_FILE.exists())
 			saveResource("bad_words.txt", false);
+			
+		if (!SLANG_FILE.exists())
+			saveResources("slang.txt"), false);
 
 		aiThread = new AIThread();
 		aiThread.start();
