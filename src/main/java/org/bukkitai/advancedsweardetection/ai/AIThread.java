@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
 import org.bukkitai.advancedsweardetection.Main;
+import org.bukkitai.advancedsweardetection.utils.LevenshteinDistance;
 import org.bukkitai.advancedsweardetection.utils.Pair;
 
 public class AIThread extends Thread {
@@ -57,7 +58,7 @@ public class AIThread extends Thread {
 		if (doLookup() && (System.currentTimeMillis() - lastDBLookup >= DB_LOOKUP_RATE)) {
 			// TODO Do a global database lookup
 		}
-		// TODO Complete this
+		// TODO Test, and fix all of the bug, and add more features.
 
 		if (!processingQueue.isEmpty()) {
 			Pair<String, String> poll = processingQueue.poll();
@@ -70,42 +71,42 @@ public class AIThread extends Thread {
 					for (int j = i; j < words.length; j++) {
 						finalWord += words[j];
 						finalWordWithSpaces += words[j] + " ";
-						if (NUMBER_ONLY.matcher(words[j]).matches())
+						if (NUMBER_ONLY.matcher(words[j].trim()).matches()) {
+							i = j;
 							break;
-						if (DICTONARY.contains(words[i]))
+						} else if (DICTONARY.contains(finalWord) || DICTONARY.contains(finalWordWithSpaces.trim())) {
+							i = j;
 							break;
-						else if (BLACKLIST.contains(finalWord.trim().toLowerCase())) {
-							BLACKLIST.add(finalWordWithSpaces);
-							try {
-								Files.write(Main.BAD_WORD_FILE.toPath(), Arrays.asList(finalWordWithSpaces),
-										StandardOpenOption.APPEND);
-							} catch (IOException e) {
-								Main.getInstance().getLogger().log(Level.SEVERE,
-										"Could not save '" + finalWordWithSpaces + "' to BAD_WORD_FILE!", e);
+						} else if (BLACKLIST.contains(finalWord.trim().toLowerCase())) {
+							registerWord(finalWordWithSpaces);
+							i = j;
+							break;
+						} else {
+							for(String bad : BLACKLIST) {
+								if(LevenshteinDistance.computeLevenshteinDistancePercent(bad, finalWordWithSpaces) >= 80) {
+									registerWord(finalWordWithSpaces);
+									i = j;
+									break;
+								}
 							}
-							break;
+							
 						}
 					}
-					for (String word: Files.readAllLines(Main.BAD_WORD_FILE.toPath())) {
-					if (StringUtils.getJaroWinklerDistance(message, word) < 0.8) {
-					//Mark as okay
-					}
-					if (StringUtils.getJaroWinklerDistance(finalWord, word) > 0.8) {
-					AIThread.BLACKLIST.add(message.toLowerCase());
-					
-					//Marked as blacklisted
-					}
-					
-					}
-					
-					// TODO Check if a word is above 80%, or more, or less 		| CHECK
-					// similar to any blocked word and add its original stage to	| CHECK
-					// the blacklist.						| CHECK
-					// Then do the same for every substring
 				}
 			}
 		}
 
+	}
+
+	private void registerWord(String word) {
+		BLACKLIST.add(word);
+		try {
+			Files.write(Main.BAD_WORD_FILE.toPath(), Arrays.asList(word),
+					StandardOpenOption.APPEND);
+		} catch (IOException e) {
+			Main.getInstance().getLogger().log(Level.SEVERE,
+					"Could not save '" + word + "' to BAD_WORD_FILE!", e);
+		}
 	}
 
 	/**
