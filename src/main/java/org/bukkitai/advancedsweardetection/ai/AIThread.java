@@ -86,9 +86,21 @@ public class AIThread extends Thread {
 							break;
 						}
 					}
-					// TODO Check if a word is above 80%, or more, or less,
-					// similar to any blocked word and add its original stage to
-					// the blacklist.
+					for (String word: Files.readAllLines(Main.BAD_WORD_FILE.toPath())) {
+					if (StringUtils.getJaroWinklerDistance(message, word) < 0.8) {
+					//Mark as okay
+					}
+					if (StringUtils.getJaroWinklerDistance(message, word) > 0.8) {
+					AIThread.BLACKLIST.add(message.toLowerCase());
+					
+					//Marked as blacklisted
+					}
+					
+					}
+					
+					// TODO Check if a word is above 80%, or more, or less 		| CHECK
+					// similar to any blocked word and add its original stage to	| CHECK
+					// the blacklist.						| CHECK
 					// Then do the same for every substring
 				}
 			}
