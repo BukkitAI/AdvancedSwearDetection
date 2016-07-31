@@ -20,7 +20,7 @@ public class Main extends JavaPlugin {
 
 		DICTONARY_FILE = new File(getDataFolder(), "dictonary.txt");
 		BAD_WORD_FILE = new File(getDataFolder(), "bad_words.txt");
-		SLANG_FILE = new File(getDataFolder(), "slang.txt")
+		SLANG_FILE = new File(getDataFolder(), "slang.txt");
 
 		if (!DICTONARY_FILE.exists())
 			saveResource("dictonary.txt", false);
