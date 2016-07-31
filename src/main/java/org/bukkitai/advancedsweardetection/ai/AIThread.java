@@ -2,6 +2,7 @@ package org.bukkitai.advancedsweardetection.ai;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,6 +21,7 @@ public class AIThread extends Thread {
 	private static final List<String> TO_STRIP = new ArrayList<>();
 	private static final long DB_LOOKUP_RATE = 1800000;
 	public static final List<String> DICTONARY = new ArrayList<>();
+	private static final Pattern NUMBER_ONLY = Pattern.compile("[0-9]([0-9])*");
 
 	private boolean doLookup = true;
 	private Queue<Pair<String, String>> processingQueue = new ConcurrentLinkedQueue<>();
@@ -27,7 +29,8 @@ public class AIThread extends Thread {
 	private long lastDBLookup = 0;
 
 	static {
-		TO_STRIP.addAll(Arrays.asList("'", "\"", "_", "-", "+", "*", "]",  "}", "\\", "|", ",", ".", ">", "/", "?",";","#","^","%"));
+		TO_STRIP.addAll(Arrays.asList("'", "\"", "_", "-", "+", "*", "[", "]", "{", "}", "\\", "|", ",", ".", "<", ">",
+				"/", "?", ";", "#", "^", "%"));
 	}
 
 	@Override
@@ -62,7 +65,31 @@ public class AIThread extends Thread {
 			String[] words = spaces.split(Pattern.quote(" "));
 			for (int i = 0; i < words.length; i++) {
 				if (!DICTONARY.contains(words[i])) {
-					// Strange word
+					String finalWord = "";
+					String finalWordWithSpaces = "";
+					for (int j = i; j < words.length; j++) {
+						finalWord += words[j];
+						finalWordWithSpaces += words[j] + " ";
+						if (NUMBER_ONLY.matcher(words[j]).matches())
+							break;
+						if (DICTONARY.contains(words[i]))
+							break;
+						else if (BLACKLIST.contains(finalWord.trim().toLowerCase())) {
+							BLACKLIST.add(finalWordWithSpaces);
+							try {
+								Files.write(Main.BAD_WORD_FILE.toPath(), Arrays.asList(finalWordWithSpaces),
+										StandardOpenOption.APPEND);
+							} catch (IOException e) {
+								Main.getInstance().getLogger().log(Level.SEVERE,
+										"Could not save '" + finalWordWithSpaces + "' to BAD_WORD_FILE!", e);
+							}
+							break;
+						}
+					}
+					// TODO Check if a word is above 80%, or more, or less,
+					// similar to any blocked word and add its original stage to
+					// the blacklist.
+					// Then do the same for every substring
 				}
 			}
 		}
@@ -82,6 +109,9 @@ public class AIThread extends Thread {
 	private String strip(String lowerCase) {
 		for (String s : TO_STRIP) {
 			lowerCase = lowerCase.replace(s, "");
+		}
+		while (lowerCase.contains("  ")) {
+			lowerCase.replace("  ", " ");
 		}
 		return lowerCase;
 	}
