@@ -1,5 +1,6 @@
 package org.bukkitai.advancedsweardetection.listeners;
 
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -12,7 +13,7 @@ public class ChatListener implements Listener {
 		Main.getInstance().getAIThread().addString(event.getMessage());
 		if (Main.getInstance().getAIThread().hasBlacklistedWord(event.getMessage())) {
 			event.setCancelled(true);
-			event.getPlayer().sendMessage("Do not swear!");
+			event.getPlayer().sendMessage(ChatColor.RED + "Do not swear!");
 		}
 	}
 }
