@@ -4,6 +4,7 @@ import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkitai.advancedsweardetection.ai.AIThread;
+import org.bukkitai.advancedsweardetection.commands.MainCommand;
 import org.bukkitai.advancedsweardetection.listeners.ChatListener;
 
 public class Main extends JavaPlugin {
@@ -26,11 +27,14 @@ public class Main extends JavaPlugin {
 		if (!BAD_WORD_FILE.exists())
 			saveResource("bad_words.txt", false);
 
+		saveDefaultConfig();
+		
 		aiThread = new AIThread();
 		aiThread.start();
 
 		chatListener = new ChatListener();
 		Bukkit.getPluginManager().registerEvents(chatListener, getInstance());
+		Bukkit.getPluginCommand("advancedsweardetection").setExecutor(new MainCommand());
 	}
 
 	public void onDisable() {
@@ -44,5 +48,11 @@ public class Main extends JavaPlugin {
 
 	public static Main getInstance() {
 		return instance;
+	}
+	
+	public static void debug(String msg) {
+		if((boolean) getInstance().getConfig().get("debug", true)){
+			getInstance().getLogger().info("[DEBUG] " + msg);
+		}
 	}
 }

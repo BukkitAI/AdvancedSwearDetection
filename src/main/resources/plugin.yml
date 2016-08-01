@@ -12,3 +12,7 @@ description: AI designed to automatically learn filter bypasses and block them i
 author: BukkitAI Team
 authors: ['bwfcwalshy', 'ArsenArsen', 'TheEnderCrafter9', 'I Al Istannen']
 main: org.bukkitai.advancedsweardetection.Main
+commands:
+  advancedsweardetection:
+    aliases: [asd]
+    usage: /asd

@@ -1,0 +1,4 @@
+# Should we print debug lines?
+debug: false
+# Simlarity percent to a bad word for another word to be detected as bad
+simlarity: 80
