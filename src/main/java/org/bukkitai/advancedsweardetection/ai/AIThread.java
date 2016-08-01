@@ -93,7 +93,7 @@ public class AIThread extends Thread {
 							double levenshteinDistance = LevenshteinDistance.computeLevenshteinDistancePercent(bad,
 									finalWord);
 							Main.debug("Matched: " + levenshteinDistance + " for word " + bad);
-							if (levenshteinDistance >= Main.getInstance().getConfig().getDouble("simlarity", 80)) {
+							if (levenshteinDistance >= Main.getInstance().getConfig().getDouble("similarity", 80)) {
 								Main.debug("Match");
 								registerWord(finalWordWithSpaces);
 								i = j;
