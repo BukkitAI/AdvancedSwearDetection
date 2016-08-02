@@ -1,4 +1,4 @@
-package org.bukkitai.advancedsweardetection.ai;
++-package org.bukkitai.advancedsweardetection.ai;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -90,8 +90,8 @@ public class AIThread extends Thread {
 							break;
 						}
 						for (String bad : BLACKLIST) {
-							double jaroDistance = JaroWinkler.calc(bad , finalWord);
-							Main.debug("Matched: " + levenshteinDistance + " for word " + bad);
+							double jaroDistance = StringUtils.getJaroWinklerDistance(bad , finalWord);
+							Main.debug("Matched: " + jaroDistance + " for word " + bad);
 							if (jaroDistance >= Main.getInstance().getConfig().getDouble("similarity", .80)) {
 								Main.debug("Match");
 								registerWord(finalWordWithSpaces);
