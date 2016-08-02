@@ -29,7 +29,7 @@ public class Main extends JavaPlugin {
 		if (!BAD_WORD_FILE.exists())
 			saveResource("bad_words.txt", false);
 			
-		if (!EXAMPLE_CONFGI_FILE.exists() 
+		if (!EXAMPLE_CONFIG_FILE.exists() 
 			saveResource("example.yml", false);
 			
 			
