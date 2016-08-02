@@ -17,6 +17,6 @@ or
 `` mvn clean package``
 in the projects root.
 
-## dependencies
+## Dependencies
 
 java-string-similarity : https://github.com/tdebatty/java-string-similarity/releases
