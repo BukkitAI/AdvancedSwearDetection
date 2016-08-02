@@ -1,5 +1,17 @@
+#             _____ 
+#       /\   |_   _|
+#      /  \    | |  
+#     / /\ \   | |  
+#    / ____ \ _| |_ 
+#   /_/    \_\_____|
+#                   
+# Made by the BukkitAI team!
+
 # Should we print debug lines?
 debug: false
 # similarity decimal to a bad word for another word to be detected as bad
 # ranging from 0.0 as 0% to 1.0 100%
 similarity: .8
+
+# These people are exempt from the cursing rules.
+whitelist:
