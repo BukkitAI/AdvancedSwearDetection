@@ -1,4 +1,4 @@
-+-package org.bukkitai.advancedsweardetection.ai;
+package org.bukkitai.advancedsweardetection.ai;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
 import org.bukkitai.advancedsweardetection.Main;
-import org.bukkitai.advancedsweardetection.utils.LevenshteinDistance;
+
+import info.debatty.java.stringsimilarity.JaroWinkler;
 
 public class AIThread extends Thread {
 	private static final Collection<String> TO_STRIP = new HashSet<>();
@@ -26,6 +27,7 @@ public class AIThread extends Thread {
 	private boolean doLookup = true;
 	private Queue<String> processingQueue = new ConcurrentLinkedQueue<>();
 	private long lastDBLookup = 0L;
+	public static final JaroWinkler jaroWinkler = new JaroWinkler();
 
 	static {
 		TO_STRIP.addAll(Arrays.asList(new String[] { "'", "\"", "_", "-", "+", "*", "[", "]", "{", "}", "\\", "|", ",",
@@ -90,9 +92,9 @@ public class AIThread extends Thread {
 							break;
 						}
 						for (String bad : BLACKLIST) {
-							double jaroDistance = StringUtils.getJaroWinklerDistance(bad , finalWord);
-							Main.debug("Matched: " + jaroDistance + " for word " + bad);
-							if (jaroDistance >= Main.getInstance().getConfig().getDouble("similarity", .80)) {
+							double simlarity = 100 - (jaroWinkler.distance(finalWord, bad) * 100);
+							Main.debug("Matched: " + simlarity + " for word " + bad);
+							if (simlarity >= Main.getInstance().getConfig().getDouble("similarity", 75)) {
 								Main.debug("Match");
 								registerWord(finalWordWithSpaces);
 								i = j;
@@ -103,7 +105,7 @@ public class AIThread extends Thread {
 						}
 					}
 				} else {
-					Main.debug("Not in dict!");
+					Main.debug("Valid word!");
 				}
 			}
 		}

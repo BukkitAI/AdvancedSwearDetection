@@ -15,10 +15,9 @@
 debug: false
 
 # similarity decimal to a bad word for another word to be detected as bad
-# ranging from 0.0 as 0% to 1.0 100%
-#  Options: 0.0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0
-#  We recommend leaving this value at .8
-similarity: .8
+# ranging from 0% to 100%
+#  We recommend leaving this value at 75
+similarity: 75
 
 # These people are exempt from the cursing rules.
 # Add a new name, case insensitive, with: (no hashtag) 

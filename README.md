@@ -14,7 +14,7 @@ This plugin is being built with Java 7 and Bukkit 1.8.8-R0.1. In theory, this pl
 Compiling is done with Maven, and it is pretty simple, just run
 `` mvn ``
 or 
-`` mvn clean package``
+`` mvn clean compile assembly:single``
 in the projects root.
 
 ## Dependencies

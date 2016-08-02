@@ -1,5 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.bukkitai</groupId>
 	<artifactId>advancedsweardetection</artifactId>
@@ -14,6 +15,10 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>info.debatty</groupId>
+			<artifactId>java-string-similarity</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<scope>provided</scope>
@@ -26,10 +31,15 @@
 				<artifactId>bukkit</artifactId>
 				<version>1.8.8-R0.1-SNAPSHOT</version>
 			</dependency>
+			<dependency>
+				<groupId>info.debatty</groupId>
+				<artifactId>java-string-similarity</artifactId>
+				<version>RELEASE</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
-		<defaultGoal>clean package</defaultGoal>
+		<defaultGoal>clean compile assembly:single</defaultGoal>
 		<finalName>AdvancedSwearDetection</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
@@ -42,17 +52,26 @@
 				</includes>
 			</resource>
 		</resources>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<source>1.7</source>
-						<target>1.7</target>
-					</configuration>
+		<plugins>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+				<source>1.7</source>
+				<target>1.7</target>
+				<descriptorRefs>
+					<descriptorRef>jar-with-dependencies</descriptorRef>
+				</descriptorRefs>
+				</configuration>
 				</plugin>
 			</plugins>
-		</pluginManagement>
 	</build>
 </project>

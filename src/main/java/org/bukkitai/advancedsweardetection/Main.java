@@ -11,7 +11,7 @@ public class Main extends JavaPlugin {
 	public static File DICTONARY_FILE;
 	public static File BAD_WORD_FILE;
 	public static File EXAMPLE_CONFIG_FILE;
-	
+
 	private AIThread aiThread;
 	private static Main instance;
 	private ChatListener chatListener;
@@ -28,13 +28,22 @@ public class Main extends JavaPlugin {
 
 		if (!BAD_WORD_FILE.exists())
 			saveResource("bad_words.txt", false);
-			
-		if (!EXAMPLE_CONFIG_FILE.exists() 
+
+		if (!EXAMPLE_CONFIG_FILE.exists())
 			saveResource("example.yml", false);
-			
-			
+
 		saveDefaultConfig();
-		
+		// @formatter:off
+		getConfig().options()
+				.header("#             _____ "
+						+ "      /\\   |_   _|"
+						+ "     /  \\    | |  "
+						+ "    / /\\ \\   | |  "
+						+ "   / ____ \\ _| |_ "
+						+ "  /_/    \\_\\_____|"
+						+ "                  "
+						+ "Made by the BukkitAI team!");
+		// @formatter:on
 		aiThread = new AIThread();
 		aiThread.start();
 
@@ -55,9 +64,9 @@ public class Main extends JavaPlugin {
 	public static Main getInstance() {
 		return instance;
 	}
-	
+
 	public static void debug(String msg) {
-		if((boolean) getInstance().getConfig().get("debug", true)){
+		if ((boolean) getInstance().getConfig().get("debug", true)) {
 			getInstance().getLogger().info("[DEBUG] " + msg);
 		}
 	}

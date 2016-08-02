@@ -10,8 +10,8 @@
 # Should we print debug lines?
 debug: false
 # similarity decimal to a bad word for another word to be detected as bad
-# ranging from 0.0 as 0% to 1.0 100%
-similarity: .8
-
+# ranging from 0% to 100%
+similarity: 75.0
 # These people are exempt from the cursing rules.
 whitelist:
+  - ServerAdministratorGuy123

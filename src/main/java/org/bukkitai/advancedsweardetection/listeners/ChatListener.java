@@ -10,8 +10,8 @@ public class ChatListener implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-			for (String players: Main.getInstance.getConfig().getStringList("whitelist")) {
-				if (players.equalsIgnoreCase(sender.getName())) return;
+			for (String players: Main.getInstance().getConfig().getStringList("whitelist")) {
+				if (players.equalsIgnoreCase(event.getPlayer().getName())) return;
 			}
 
 		if (Main.getInstance().getAIThread().hasBlacklistedWord(event.getMessage())) {
