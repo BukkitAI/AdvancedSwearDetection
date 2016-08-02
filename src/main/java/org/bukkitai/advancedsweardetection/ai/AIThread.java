@@ -90,10 +90,9 @@ public class AIThread extends Thread {
 							break;
 						}
 						for (String bad : BLACKLIST) {
-							double levenshteinDistance = LevenshteinDistance.computeLevenshteinDistancePercent(bad,
-									finalWord);
+							double jaroDistance = JaroWinkler.calc(bad , finalWord);
 							Main.debug("Matched: " + levenshteinDistance + " for word " + bad);
-							if (levenshteinDistance >= Main.getInstance().getConfig().getDouble("similarity", 80)) {
+							if (jaroDistance >= Main.getInstance().getConfig().getDouble("similarity", .80)) {
 								Main.debug("Match");
 								registerWord(finalWordWithSpaces);
 								i = j;
