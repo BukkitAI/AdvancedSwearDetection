@@ -1,5 +1,5 @@
 public class JaroWinkler {
-   public static double getJaroWinklerDistance(CharSequence first, CharSequence second)
+   public static double calc(CharSequence first, CharSequence second)
    {
      double DEFAULT_SCALING_FACTOR = 0.1D;
      
