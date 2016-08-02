@@ -10,6 +10,10 @@ public class ChatListener implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
+			for (String players: Main.getInstance.getConfig().getStringList("whitelist")) {
+				if (players.equalsIgnoreCase(sender.getName())) return;
+			}
+
 		if (Main.getInstance().getAIThread().hasBlacklistedWord(event.getMessage())) {
 			event.setCancelled(true);
 			event.getPlayer().sendMessage(ChatColor.RED + "Do not swear!!!");
