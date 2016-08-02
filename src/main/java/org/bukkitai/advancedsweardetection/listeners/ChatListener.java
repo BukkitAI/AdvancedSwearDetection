@@ -12,7 +12,7 @@ public class ChatListener implements Listener {
 	public void onChat(AsyncPlayerChatEvent event) {
 		if (Main.getInstance().getAIThread().hasBlacklistedWord(event.getMessage())) {
 			event.setCancelled(true);
-			event.getPlayer().sendMessage(ChatColor.RED + "Do not swear!");
+			event.getPlayer().sendMessage(ChatColor.RED + "Do not swear!!!");
 		} else Main.getInstance().getAIThread().addString(event.getMessage());
 	}
 }
