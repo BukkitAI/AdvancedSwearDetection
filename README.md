@@ -16,3 +16,7 @@ Compiling is done with Maven, and it is pretty simple, just run
 or 
 `` mvn clean package``
 in the projects root.
+
+## dependencies
+
+java-string-similarity : https://github.com/tdebatty/java-string-similarity/releases
