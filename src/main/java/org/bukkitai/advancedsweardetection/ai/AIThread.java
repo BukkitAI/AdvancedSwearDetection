@@ -64,51 +64,56 @@ public class AIThread extends Thread {
 			String poll = (String) processingQueue.poll();
 			String[] words = poll.split(Pattern.quote(" "));
 			for (int i = 0; i < words.length; i++) {
-				if (!DICTONARY.contains(words[i])) {
-					String finalWord = "";
-					String finalWordWithSpaces = "";
-					for (int j = i; j < words.length; j++) {
-						finalWord = finalWord + words[j];
-						finalWordWithSpaces = finalWordWithSpaces + words[j] + " ";
-						Main.debug("Word: " + finalWord);
-						Main.debug("Word + spaces: " + finalWordWithSpaces);
-						if (NUMBER_ONLY.matcher(words[j].trim()).matches()) {
+				String finalWord = "";
+				String finalWordWithSpaces = "";
+				for (int j = i; j < words.length; j++) {
+					finalWord = finalWord + words[j];
+					finalWordWithSpaces = finalWordWithSpaces + words[j] + " ";
+					Main.debug("Word: " + finalWord);
+					Main.debug("Word + spaces: " + finalWordWithSpaces);
+					if (NUMBER_ONLY.matcher(words[j].trim()).matches()) {
+						finalWord = "";
+						finalWordWithSpaces = "";
+						i = j;
+						continue;
+					}
+					if (contains(DICTONARY, finalWord) || contains(DICTONARY, finalWordWithSpaces)) {
+						finalWord = "";
+						finalWordWithSpaces = "";
+						i = j;
+						continue;
+					}
+					for (String bad : BLACKLIST) {
+						if (bad.equalsIgnoreCase(finalWord.trim())) {
+							registerWord(finalWordWithSpaces.trim());
 							finalWord = "";
 							finalWordWithSpaces = "";
 							i = j;
-							break;
+							continue;
 						}
-						if ((DICTONARY.contains(finalWord)) || (DICTONARY.contains(finalWordWithSpaces.trim()))) {
-							finalWord = "";
-							finalWordWithSpaces = "";
-							i = j;
-							break;
-						}
-						if (BLACKLIST.contains(finalWord.trim().toLowerCase())) {
+						double simlarity = 100 - (jaroWinkler.distance(finalWord, bad) * 100);
+						Main.debug("Matched: " + simlarity + " for word " + bad);
+						if (simlarity >= Main.getInstance().getConfig().getDouble("similarity", 75)) {
+							Main.debug("Match");
 							registerWord(finalWordWithSpaces);
+							i = j;
 							finalWord = "";
 							finalWordWithSpaces = "";
-							i = j;
-							break;
-						}
-						for (String bad : BLACKLIST) {
-							double simlarity = 100 - (jaroWinkler.distance(finalWord, bad) * 100);
-							Main.debug("Matched: " + simlarity + " for word " + bad);
-							if (simlarity >= Main.getInstance().getConfig().getDouble("similarity", 75)) {
-								Main.debug("Match");
-								registerWord(finalWordWithSpaces);
-								i = j;
-								finalWord = "";
-								finalWordWithSpaces = "";
-								return;
-							}
+							return;
 						}
 					}
-				} else {
-					Main.debug("Valid word!");
 				}
 			}
 		}
+	}
+
+	private boolean contains(Collection<String> list, String words) {
+		for (String s : list) {
+			if (s.equalsIgnoreCase(words.trim())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void registerWord(String word) {
