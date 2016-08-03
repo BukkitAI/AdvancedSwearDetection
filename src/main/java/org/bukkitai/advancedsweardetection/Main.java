@@ -22,6 +22,7 @@ public class Main extends JavaPlugin {
 		DICTONARY_FILE = new File(getDataFolder(), "dictonary.txt");
 		BAD_WORD_FILE = new File(getDataFolder(), "bad_words.txt");
 		EXAMPLE_CONFIG_FILE = new File(getDataFolder(), "example.yml");
+		DATA_FILE = new File(getDataFolder(), "data.yml");
 
 		if (!DICTONARY_FILE.exists())
 			saveResource("dictonary.txt", false);
@@ -31,6 +32,8 @@ public class Main extends JavaPlugin {
 
 		if (!EXAMPLE_CONFIG_FILE.exists())
 			saveResource("example.yml", false);
+		if (!DATA_FILE.exists())
+			saveResource("data.yml", false);
 
 		saveDefaultConfig();
 		// @formatter:off
