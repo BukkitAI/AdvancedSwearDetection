@@ -5,17 +5,29 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkitai.advancedsweardetection.Main;
+import org.bukkitai.advancedsweardetection.AIConfig;
 
 public class ChatListener implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
+		AIConfig data = new AICONFIG("data.yml", Main.getInstance());
+		String path = String.valueOf(event.getPlayer().getUniqueId());
+		
 			for (String players: Main.getInstance().getConfig().getStringList("whitelist")) {
 				if (players.equalsIgnoreCase(event.getPlayer().getName())) return;
 			}
 
 		if (Main.getInstance().getAIThread().hasBlacklistedWord(event.getMessage())) {
 			event.setCancelled(true);
+			try {
+				int playerCount = data.getYaml().getInt(path);
+				data.getYaml().set(path, playerCount++);
+			} catch (NullPointerExeception e) {
+				int playerCount = data.getYaml().getInt(path);
+				plugin.getConfig().createSection(path);
+				data.getYaml().set(path, playerCount++);				
+			}
 			event.getPlayer().sendMessage(ChatColor.RED + "Do not swear!!!");
 		} else Main.getInstance().getAIThread().addString(event.getMessage());
 	}
