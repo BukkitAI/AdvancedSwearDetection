@@ -11,7 +11,7 @@ public class ChatListener implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		AIConfig data = new AICONFIG("data.yml", Main.getInstance());
+		AIConfig data = new AIConfig("data.yml", Main.getInstance());
 		String path = String.valueOf(event.getPlayer().getUniqueId());
 		
 			for (String players: Main.getInstance().getConfig().getStringList("whitelist")) {
@@ -23,9 +23,9 @@ public class ChatListener implements Listener {
 			try {
 				int playerCount = data.getYaml().getInt(path);
 				data.getYaml().set(path, playerCount++);
-			} catch (NullPointerExeception e) {
+			} catch (NullPointerException e) {
 				int playerCount = data.getYaml().getInt(path);
-				plugin.getConfig().createSection(path);
+				data.getYaml().createSection(path);
 				data.getYaml().set(path, playerCount++);				
 			}
 			event.getPlayer().sendMessage(ChatColor.RED + "Do not swear!!!");
