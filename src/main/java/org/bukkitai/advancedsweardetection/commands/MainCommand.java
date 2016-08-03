@@ -27,8 +27,8 @@ public class MainCommand implements CommandExecutor {
 				if (args.length < 1) {
 					sender.sendMessage(ChatColor.DARK_RED + "ERROR:" + ChatColor.RED
 							+ "Syntax: /get [PLAYER] || /getCount [PLAYER]");
-					break;
-				} else {
+					return true;
+				}
 					AIConfig data = new AIConfig("data.yml", Main.getInstance());
 					String path = String.valueOf(args[1]);
 					if (!sender.hasPermission("AI.checkPlayers"))
@@ -47,8 +47,7 @@ public class MainCommand implements CommandExecutor {
 					}
 					sender.sendMessage(ChatColor.DARK_AQUA + "Player: " + args[1] + ":" + ChatColor.AQUA
 							+ String.valueOf(data.getYaml().getInt(path)));
-				}
-			} else
+				} else
 				sendHelp(sender);
 			break;
 		case 0:
@@ -71,15 +70,15 @@ public class MainCommand implements CommandExecutor {
 			} else
 				sendHelp(sender);
 			break;
-		}
+		} 
 		return true;
 	}
 
 	private void sendHelp(CommandSender sender) {
-		sender.sendMessage(new String[] { ChatColor.DARK_AQUA + "AdvancedSwearDetection by BukkitAI Team",
-				ChatColor.DARK_AQUA + "Usage: ", ChatColor.DARK_AQUA + "/asd - " + ChatColor.AQUA + "Prints this page",
-				ChatColor.DARK_AQUA + "/asd ver|version - " + ChatColor.AQUA + "Prints the version",
-				ChatColor.DARK_AQUA + "/asd test Wo Rd S - " + ChatColor.AQUA + "Tests a string against the database",
-				ChatColor.DARK_AQUA + "/as get|getCount|data - " + ChatColor.AQUA + "Gets a player's curse count." });
+		sender.sendMessage(new String[] { org.bukkit.ChatColor.DARK_AQUA + "AdvancedSwearDetection by BukkitAI Team",
+				org.bukkit.ChatColor.DARK_AQUA + "Usage: ", org.bukkit.ChatColor.DARK_AQUA + "/asd - " + ChatColor.AQUA + "Prints this page",
+				org.bukkit.ChatColor.DARK_AQUA + "/asd ver|version - " + org.bukkit.ChatColor.AQUA + "Prints the version",
+				org.bukkit.ChatColor.DARK_AQUA + "/asd test Wo Rd S - " + org.bukkit.ChatColor.AQUA + "Tests a string against the database",
+				org.bukkit.ChatColor.DARK_AQUA + "/asd get|getCount|data - " + org.bukkit.ChatColor.AQUA + "Gets a player's curse count." });
 	}
 }
