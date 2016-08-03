@@ -1,80 +1,75 @@
-package org.bukkitai.advancedsweardetection;
+package org.bukkitai.advancedsweardetection.commands;
 
-import java.io.File;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkitai.advancedsweardetection.ai.AIThread;
-import org.bukkitai.advancedsweardetection.commands.MainCommand;
-import org.bukkitai.advancedsweardetection.listeners.ChatListener;
-import org.bukkitai.advancedsweardetection.commands.TabExecutors;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkitai.advancedsweardetection.AIConfig;
+import org.bukkitai.advancedsweardetection.Main;
 
-public class Main extends JavaPlugin {
-	public static File DICTONARY_FILE;
-	public static File BAD_WORD_FILE;
-	public static File EXAMPLE_CONFIG_FILE;
-	public static File DATA_FILE;
-	
-	private AIThread aiThread;
-	private static Main instance;
-	private ChatListener chatListener;
-
-	public void onEnable() {
-		instance = this;
-
-		DICTONARY_FILE = new File(getDataFolder(), "dictonary.txt");
-		BAD_WORD_FILE = new File(getDataFolder(), "bad_words.txt");
-		EXAMPLE_CONFIG_FILE = new File(getDataFolder(), "example.yml");
-		DATA_FILE = new File(getDataFolder(), "data.yml");
-
-		if (!DICTONARY_FILE.exists())
-			saveResource("dictonary.txt", false);
-
-		if (!BAD_WORD_FILE.exists())
-			saveResource("bad_words.txt", false);
-
-		if (!EXAMPLE_CONFIG_FILE.exists())
-			saveResource("example.yml", false);
-		if (!DATA_FILE.exists())
-			saveResource("data.yml", false);
-
-		saveDefaultConfig();
-		// @formatter:off
-		getConfig().options()
-				.header("#             _____ "
-						+ "      /\\   |_   _|"
-						+ "     /  \\    | |  "
-						+ "    / /\\ \\   | |  "
-						+ "   / ____ \\ _| |_ "
-						+ "  /_/    \\_\\_____|"
-						+ "                  "
-						+ "Made by the BukkitAI team!");
-		// @formatter:on
-		aiThread = new AIThread();
-		aiThread.start();
-
-		chatListener = new ChatListener();
-		getServer().getPluginManager().registerEvents(chatListener, getInstance());
-		this.getCommand("advancedsweardetection").setExecutor(new MainCommand());
-		this.getCommand("advancedsweardetection").setTabCompleter(new TabExecutors());
-
+public class MainCommand implements CommandExecutor {
+	// edit
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		switch (args.length) {
+		case 1:
+			if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("ver")) {
+				sender.sendMessage(ChatColor.DARK_AQUA + "Running version: " + ChatColor.AQUA
+						+ Main.getInstance().getDescription().getVersion());
+			} else
+				sendHelp(sender);
+			break;
+		case 2:
+			if (args[0].equalsIgnoreCase("getCount") || args[0].equalsIgnoreCase("get")
+					|| args[0].equalsIgnoreCase("data")) {
+				if (args.length < 1) {
+					sender.sendMessage(ChatColor.DARK_RED + "ERROR:" + ChatColor.RED
+							+ "Syntax: /get [PLAYER] || /getCount [PLAYER]");
+					return true;
+				}
+					AIConfig data = new AIConfig("data.yml", Main.getInstance());
+					String path = String.valueOf(args[1]);
+					if (!sender.hasPermission("AI.checkPlayers"))
+						break;
+					if (!Bukkit.getOfflinePlayer(args[1]).hasPlayedBefore()) {
+						sender.sendMessage(
+								ChatColor.DARK_RED + "ERROR:" + ChatColor.RED + "That player has never played before!");
+						break;
+					}
+					try {
+						data.getYaml().getInt(path);
+						data.reloadYaml();
+					} catch (NullPointerException e) {
+						data.getYaml().createSection(path);
+						data.reloadYaml();
+					}
+					sender.sendMessage(ChatColor.DARK_AQUA + "Player: " + args[1] + ":" + ChatColor.AQUA
+							+ String.valueOf(data.getYaml().getInt(path)));
+				} else
+				sendHelp(sender);
+			break;
+		case 0:
+			sendHelp(sender);
+			break;
+		default:
+			if (args[0].equalsIgnoreCase("test")) {
+				StringBuilder string = new StringBuilder();
+				for (int i = 1; i < args.length; i++) {
+					string.append(args[i]);
+					string.append(' ');
+				}
+				String trim = string.toString().trim();
+				if (Main.getInstance().getAIThread().hasBlacklistedWord(trim)) {
+					sender.sendMessage(ChatColor.RED + "Found a swear word!");
+				} else {
+					Main.getInstance().getAIThread().addString(trim);
+					sender.sendMessage(ChatColor.RED + "Nothing found.");
+				}
+			} else
+				sendHelp(sender);
+			break;
+		} 
+		return false;
 	}
-
-	public void onDisable() {
-		instance = null;
-		aiThread.interrupt();
-	}
-
-	public AIThread getAIThread() {
-		return aiThread;
-	}
-
-	public static Main getInstance() {
-		return instance;
-	}
-
-	public static void debug(String msg) {
-		if ((boolean) getInstance().getConfig().get("debug", true)) {
-			getInstance().getLogger().info("[DEBUG] " + msg);
-		}
-	}
-}
