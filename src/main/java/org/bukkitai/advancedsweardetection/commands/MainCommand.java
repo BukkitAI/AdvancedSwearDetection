@@ -2,15 +2,15 @@ package org.bukkitai.advancedsweardetection.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkitai.advancedsweardetection.Main;
 import org.bukkitai.advancedsweardetection.AIConfig;
+import org.bukkitai.advancedsweardetection.Main;
 
 public class MainCommand implements CommandExecutor {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		switch(args.length) {
@@ -20,12 +20,12 @@ public class MainCommand implements CommandExecutor {
 			} else sendHelp(sender);
 			break;
 		case 2:
-			if (args[0].equalIgnoreCase("getCount") || args[0].equalsIgnoreCase("get") || args[0].equalsIgnoreCase("data")) {
-				if (!args.length == 1) {
+			if (args[0].equalsIgnoreCase("getCount") || args[0].equalsIgnoreCase("get") || args[0].equalsIgnoreCase("data")) {
+				if (!(args.length == 1)) {
 					sender.sendMessage(ChatColor.DARK_RED + "ERROR:" + ChatColor.RED + "Syntax: /get [PLAYER] || /getCount [PLAYER]");
 					break;
 				} else {
-				AIConfig data = new AICONFIG("data.yml", Main.getInstance());
+				AIConfig data = new AIConfig("data.yml", Main.getInstance());
 				String path = String.valueOf(args[1]);
 				if (!sender.hasPermission("AI.checkPlayers")) break;
 				if (!Bukkit.getOfflinePlayer(args[1]).hasPlayedBefore()) {
@@ -33,10 +33,9 @@ public class MainCommand implements CommandExecutor {
 					break;
 				}
 				try {
-					int playerCount = data.getYaml().getInt(path);
+					data.getYaml().getInt(path);
 				} catch (NullPointerException e) {
-					int playerCount = data.getYaml().getInt(path);
-					data.getYaml().getConfig().createSection(path);
+					data.getYaml().createSection(path);
 				}
 				sender.sendMessage(ChatColor.DARK_AQUA + "Player: " +  args[1] + ":" + ChatColor.AQUA + String.valueOf(data.getYaml().getInt(path)));
 				}
@@ -68,9 +67,9 @@ public class MainCommand implements CommandExecutor {
 	private void sendHelp(CommandSender sender) {
 		sender.sendMessage(new String[] { ChatColor.DARK_AQUA + "AdvancedSwearDetection by BukkitAI Team",
 				ChatColor.DARK_AQUA + "Usage: ", 
-				ChatColor.DARKAQUA + "/asd - " + ChatColor.AQUA + "Prints this page",
+				ChatColor.DARK_AQUA + "/asd - " + ChatColor.AQUA + "Prints this page",
 				ChatColor.DARK_AQUA + "/asd ver|version - " + ChatColor.AQUA + "Prints the version",
-				ChatColor.DARK_AQUA + "/asd test Wo Rd S - " + ChatColor.AQUA + "Tests a string against the database",
-				ChatColor.DARK_AQUA + "/asg getCount|get|data - " + ChatColor.AQUA + "Gets the amount of times a player sweared."});
+				ChatColor.DARK_AQUA + "/asd test Wo Rd S - " + ChatColor.AQUA +"Tests a string against the database",
+				ChatColor.DARK_AQUA + "/as get|getCount|data - " + ChatColor.AQUA + "Gets a player's curse count."});
 	}
 }
