@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkitai.advancedsweardetection.ai.AIThread;
 import org.bukkitai.advancedsweardetection.commands.MainCommand;
 import org.bukkitai.advancedsweardetection.listeners.ChatListener;
+import org.bukkitai.advancedsweardetection.commands.TabExecutors;
 
 public class Main extends JavaPlugin {
 	public static File DICTONARY_FILE;
@@ -53,6 +54,8 @@ public class Main extends JavaPlugin {
 		chatListener = new ChatListener();
 		Bukkit.getPluginManager().registerEvents(chatListener, getInstance());
 		Bukkit.getPluginCommand("advancedsweardetection").setExecutor(new MainCommand());
+		Bukkit.getPluginCommand("advancedsweardetection").setTabCompleter(new TabExecutors());
+
 	}
 
 	public void onDisable() {
