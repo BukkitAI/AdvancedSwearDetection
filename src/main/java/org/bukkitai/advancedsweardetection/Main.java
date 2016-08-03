@@ -12,7 +12,8 @@ public class Main extends JavaPlugin {
 	public static File DICTONARY_FILE;
 	public static File BAD_WORD_FILE;
 	public static File EXAMPLE_CONFIG_FILE;
-
+	public static File DATA_FILE;
+	
 	private AIThread aiThread;
 	private static Main instance;
 	private ChatListener chatListener;
@@ -52,9 +53,9 @@ public class Main extends JavaPlugin {
 		aiThread.start();
 
 		chatListener = new ChatListener();
-		Bukkit.getPluginManager().registerEvents(chatListener, getInstance());
-		Bukkit.getPluginCommand("advancedsweardetection").setExecutor(new MainCommand());
-		Bukkit.getPluginCommand("advancedsweardetection").setTabCompleter(new TabExecutors());
+		getServer().getPluginManager().registerEvents(chatListener, getInstance());
+		this.getCommand("advancedsweardetection").setExecutor(new MainCommand());
+		this.getCommand("advancedsweardetection").setTabCompleter(new TabExecutors());
 
 	}
 
