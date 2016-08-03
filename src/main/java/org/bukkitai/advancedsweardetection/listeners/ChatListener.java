@@ -8,7 +8,6 @@ import org.bukkitai.advancedsweardetection.Main;
 import org.bukkitai.advancedsweardetection.AIConfig;
 
 public class ChatListener implements Listener {
-
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		AIConfig data = new AIConfig("data.yml", Main.getInstance());
@@ -23,10 +22,14 @@ public class ChatListener implements Listener {
 			try {
 				int playerCount = data.getYaml().getInt(path);
 				data.getYaml().set(path, playerCount++);
+				data.saveYaml();
+				data.reloadYaml();
 			} catch (NullPointerException e) {
 				int playerCount = data.getYaml().getInt(path);
 				data.getYaml().createSection(path);
-				data.getYaml().set(path, playerCount++);				
+				data.getYaml().set(path, playerCount++);
+				data.saveYaml();
+				data.reloadYaml();
 			}
 			event.getPlayer().sendMessage(ChatColor.RED + "Do not swear!!!");
 		} else Main.getInstance().getAIThread().addString(event.getMessage());
