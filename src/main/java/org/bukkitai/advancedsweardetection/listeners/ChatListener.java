@@ -11,7 +11,7 @@ public class ChatListener implements Listener {
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		AIConfig data = new AIConfig("data.yml", Main.getInstance());
-		String path = String.valueOf(event.getPlayer().getUniqueId());
+		String path = String.valueOf(event.getPlayer().getName());
 		
 			for (String players: Main.getInstance().getConfig().getStringList("whitelist")) {
 				if (players.equalsIgnoreCase(event.getPlayer().getName())) return;
