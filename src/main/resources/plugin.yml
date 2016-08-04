@@ -16,3 +16,12 @@ commands:
   advancedsweardetection:
     aliases: [asd]
     usage: /asd
+permissions:
+    AI.*:
+        description: Gives access to all ASD features.
+        children:
+            ASD.data: false
+            ASD.moderation: false
+            ASD.test: false
+            ASD.perm: false
+  
