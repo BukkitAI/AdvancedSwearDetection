@@ -6,6 +6,7 @@
 #   /_/    \_\_____|
 #                   
 # Made by the BukkitAI team!
+# view documentation in example.yml
 
 # Should we print debug lines?
 debug: false
@@ -15,3 +16,8 @@ similarity: 75.0
 # These people are exempt from the cursing rules.
 whitelist:
   - ServerAdministratorGuy123
+
+# The main color for commands. 
+color1: 3
+# The sub color for commands.  
+color2: a
