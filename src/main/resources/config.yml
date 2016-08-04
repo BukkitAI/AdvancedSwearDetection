@@ -18,6 +18,6 @@ whitelist:
   - ServerAdministratorGuy123
 
 # The main color for commands. 
-color1: 3
+color1: '3'
 # The sub color for commands.  
-color2: a
+color2: 'a'
