@@ -13,7 +13,7 @@ public class TabExecutors implements TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		if (command.getName().equalsIgnoreCase("asd")) {
 			List<String> asd = new ArrayList<>();
-			String[] commands = { "ver", "version", "test", "getCount", "get", "data" };
+			String[] commands = { "ver", "version", "test", "getCount", "get", "data","permissions","perm" };
 			for (String stringCommand : commands) {
 				asd.add(stringCommand);
 			}
