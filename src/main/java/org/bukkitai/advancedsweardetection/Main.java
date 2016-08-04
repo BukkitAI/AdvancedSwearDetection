@@ -13,7 +13,7 @@ public class Main extends JavaPlugin {
 	public static File BAD_WORD_FILE;
 	public static File EXAMPLE_CONFIG_FILE;
 	public static File DATA_FILE;
-
+	
 	private AIThread aiThread;
 	private static Main instance;
 	private ChatListener chatListener;
