@@ -1,19 +1,19 @@
 package org.bukkitai.advancedsweardetection;
 
 import java.io.File;
-import org.bukkit.Bukkit;
+
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkitai.advancedsweardetection.ai.AIThread;
 import org.bukkitai.advancedsweardetection.commands.MainCommand;
-import org.bukkitai.advancedsweardetection.listeners.ChatListener;
 import org.bukkitai.advancedsweardetection.commands.TabExecutors;
+import org.bukkitai.advancedsweardetection.listeners.ChatListener;
 
 public class Main extends JavaPlugin {
 	public static File DICTONARY_FILE;
 	public static File BAD_WORD_FILE;
 	public static File EXAMPLE_CONFIG_FILE;
 	public static File DATA_FILE;
-	
+
 	private AIThread aiThread;
 	private static Main instance;
 	private ChatListener chatListener;

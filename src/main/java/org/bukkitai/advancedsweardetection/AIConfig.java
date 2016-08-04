@@ -9,7 +9,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@SuppressWarnings("deprecation")
 public class AIConfig {
 
 	private final String fileName;
@@ -19,7 +18,6 @@ public class AIConfig {
 
 	public AIConfig(String fileName, JavaPlugin plugin) {
 		if (plugin == null) throw new IllegalArgumentException("Plugin cannot be null");
-		if (!plugin.isInitialized()) throw new IllegalArgumentException("Plugin must be initiaized");
 		this.plugin = plugin;
 		this.fileName = fileName;
 		File dataFolder = plugin.getDataFolder();
@@ -34,6 +32,7 @@ public class AIConfig {
 
 		InputStream defConfigStream = plugin.getResource(fileName);
 		if (defConfigStream != null) {
+			@SuppressWarnings("deprecation")
 			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
 			fileConfiguration.setDefaults(defConfig);
 		}
