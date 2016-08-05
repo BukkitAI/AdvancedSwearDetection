@@ -10,8 +10,8 @@ name: AdvancedSwearDetection
 version: 0.0.1-ALPHA
 description: AI designed to automatically learn filter bypasses and block them in the future.
 author: BukkitAI Team
-authors: ['bwfcwalshy', 'ArsenArsen', 'TheEnderCrafter9', 'I Al Istannen']
-main: org.bukkitai.advancedsweardetection.Main
+authors: ['bwfcwalshy', 'ArsenArsen', 'TheEnderCrafter9']
+main: org.bukkitai.advancedsweardetection.ASD
 commands:
   advancedsweardetection:
     aliases: [asd]
@@ -24,4 +24,6 @@ permissions:
             ASD.moderation: false
             ASD.test: false
             ASD.perm: false
+            ASD.color: false
+            ASD.load: false
   
