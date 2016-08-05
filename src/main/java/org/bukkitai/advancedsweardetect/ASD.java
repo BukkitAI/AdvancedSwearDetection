@@ -8,7 +8,7 @@ import org.bukkitai.advancedsweardetection.commands.MainCommand;
 import org.bukkitai.advancedsweardetection.commands.TabExecutors;
 import org.bukkitai.advancedsweardetection.listeners.ChatListener;
 
-public class Main extends JavaPlugin {
+public class ASD extends JavaPlugin {
 	public static File DICTONARY_FILE;
 	public static File BAD_WORD_FILE;
 	public static File EXAMPLE_CONFIG_FILE;
