@@ -1,4 +1,4 @@
-packagepackage org.bukkitai.advancedsweardetection.commands;
+package org.bukkitai.advancedsweardetection.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -101,6 +101,7 @@ public class MainCommand implements CommandExecutor {
 							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "Reloading...");
 					ASD.getInstance().reloadConfig();
 					data.reloadYaml();
+					sender.sendMessage(ChatColor.getByChar(ASD.getInstance().getConfig().getString("color").charAt(0)) + "Reloaded.");
 				} catch (NullPointerException e) {
 					sender.sendMessage(ChatColor.DARK_AQUA + "Reloading...");
 					ASD.getInstance().reloadConfig();
