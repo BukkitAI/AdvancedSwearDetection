@@ -32,6 +32,6 @@ public class ChatListener implements Listener {
 				data.reloadYaml();
 			}
 			event.getPlayer().sendMessage(ChatColor.RED + "Do not swear!!!");
-		} else Main.getInstance().getAIThread().addString(event.getMessage());
+		} else ASD.getInstance().getAIThread().addString(event.getMessage());
 	}
 }
