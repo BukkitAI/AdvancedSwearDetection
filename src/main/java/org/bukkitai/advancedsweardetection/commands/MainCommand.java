@@ -1,4 +1,4 @@
-package org.bukkitai.advancedsweardetection.commands;
+packagepackage org.bukkitai.advancedsweardetection.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -69,9 +69,9 @@ public class MainCommand implements CommandExecutor {
 							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "/asd ver|version - " + ChatColor.getByChar(ASD.getInstance().getConfig().getString("color2").charAt(0)) + "No permission",
 							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "/asd test Wo Rd S - " + ChatColor.getByChar(ASD.getInstance().getConfig().getString("color2").charAt(0)) + "ASD.test",
 							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "/asd get|getCount|data - " + ChatColor.getByChar(ASD.getInstance().getConfig().getString("color2").charAt(0)) + "ASD.data",
-							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "/asd permissions | perm -" + ChatColor.getByChar(ASD.getInstance().getConfig().getString("color2").charAt(0)) + "ASD.perm",
-							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "/asd color|scheme -" + ChatColor.getByChar(ASD.getInstance().getConfig().getString("color2").charAt(0)) + "ASD.color",
-							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "/asd reload | load - " + ChatColor.getByChar(ASD.getInstance().getConfig().getString("color2").charAt(0)) + "ASD.load"});
+							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "/asd permissions | perm - " + ChatColor.getByChar(ASD.getInstance().getConfig().getString("color2").charAt(0)) + "ASD.perm",
+							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "/asd color|scheme - " + ChatColor.getByChar(ASD.getInstance().getConfig().getString("color2").charAt(0)) + "ASD.color",
+							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "/asd reload | load - z" + ChatColor.getByChar(ASD.getInstance().getConfig().getString("color2").charAt(0)) + "ASD.load"});
 				} catch (NullPointerException e) {
 					sender.sendMessage(
 							new String[] { ChatColor.DARK_AQUA + "AdvancedSwearDetection by BukkitAI Team",
@@ -102,11 +102,10 @@ public class MainCommand implements CommandExecutor {
 					ASD.getInstance().reloadConfig();
 					data.reloadYaml();
 				} catch (NullPointerException e) {
-					sender.sendMessage(
-							ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "Reloading...");
+					sender.sendMessage(ChatColor.DARK_AQUA + "Reloading...");
 					ASD.getInstance().reloadConfig();
 					data.reloadYaml();
-					
+					sender.sendMessage(ChatColor.DARK_AQUA + "Reloaded.");
 
 				}
 				return true;
