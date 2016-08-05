@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
-import org.bukkitai.advancedsweardetection.Main;
+import org.bukkitai.advancedsweardetection.ASD;
 
 import info.debatty.java.stringsimilarity.JaroWinkler;
 
@@ -47,9 +47,9 @@ public class AIThread extends Thread {
 				}
 			}
 		} catch (IOException e) {
-			Main.getInstance().getLogger().log(Level.SEVERE, "Could not load the dictonary or bad word file!", e);
+			ASD.getInstance().getLogger().log(Level.SEVERE, "Could not load the dictonary or bad word file!", e);
 		}
-		Main.debug("Tick started!");
+		ASD.debug("Tick started!");
 		while (!isInterrupted()) {
 			tick();
 		}
@@ -60,7 +60,7 @@ public class AIThread extends Thread {
 			lastDBLookup = System.currentTimeMillis();
 		}
 		if (!processingQueue.isEmpty()) {
-			Main.debug("Queue!");
+			ASD.debug("Queue!");
 			String poll = (String) processingQueue.poll();
 			String[] words = poll.split(Pattern.quote(" "));
 			for (int i = 0; i < words.length; i++) {
@@ -69,8 +69,8 @@ public class AIThread extends Thread {
 				for (int j = i; j < words.length; j++) {
 					finalWord = finalWord + words[j];
 					finalWordWithSpaces = finalWordWithSpaces + words[j] + " ";
-					Main.debug("Word: " + finalWord);
-					Main.debug("Word + spaces: " + finalWordWithSpaces);
+					ASD.debug("Word: " + finalWord);
+					ASD.debug("Word + spaces: " + finalWordWithSpaces);
 					if (NUMBER_ONLY.matcher(words[j].trim()).matches()) {
 						finalWord = "";
 						finalWordWithSpaces = "";
@@ -92,9 +92,9 @@ public class AIThread extends Thread {
 							continue;
 						}
 						double simlarity = 100 - (jaroWinkler.distance(finalWord, bad) * 100);
-						Main.debug("Matched: " + simlarity + " for word " + bad);
-						if (simlarity >= Main.getInstance().getConfig().getDouble("similarity", 75)) {
-							Main.debug("Match");
+						ASD.debug("Matched: " + simlarity + " for word " + bad);
+						if (simlarity >= ASD.getInstance().getConfig().getDouble("similarity", 75)) {
+							ASD.debug("Match");
 							registerWord(finalWordWithSpaces);
 							i = j;
 							finalWord = "";
@@ -119,10 +119,10 @@ public class AIThread extends Thread {
 	private void registerWord(String word) {
 		BLACKLIST.add(word);
 		try {
-			Files.write(Main.BAD_WORD_FILE.toPath(), Arrays.asList(new String[] { word }),
+			Files.write(ASD.BAD_WORD_FILE.toPath(), Arrays.asList(new String[] { word }),
 					new OpenOption[] { StandardOpenOption.APPEND });
 		} catch (IOException e) {
-			Main.getInstance().getLogger().log(Level.SEVERE, "Could not save '" + word + "' to BAD_WORD_FILE!", e);
+			ASD.getInstance().getLogger().log(Level.SEVERE, "Could not save '" + word + "' to BAD_WORD_FILE!", e);
 		}
 	}
 
