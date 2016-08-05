@@ -21,13 +21,15 @@ public class ChatListener implements Listener {
 			event.setCancelled(true);
 			try {
 				int playerCount = data.getYaml().getInt(path);
-				data.getYaml().set(path, playerCount++);
+				ASD.debug(String.valueOf(playerCount));
+				data.getYaml().set(path, playerCount + 1);
 				data.saveYaml();
 				data.reloadYaml();
 			} catch (NullPointerException e) {
 				int playerCount = data.getYaml().getInt(path);
+				ASD.debug(event.getPlayer().getName() + " " + String.valueOf(playerCount));
 				data.getYaml().createSection(path);
-				data.getYaml().set(path, playerCount++);
+				data.getYaml().set(path, playerCount + 1);
 				data.saveYaml();
 				data.reloadYaml();
 			}
