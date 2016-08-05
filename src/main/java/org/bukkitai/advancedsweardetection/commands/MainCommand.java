@@ -16,10 +16,7 @@ public class MainCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		try {
-		if (args[0] == null) {
-			sendHelp(sender);
-			return true;
-		}
+			args[0].toLowerCase();
 		} catch (ArrayIndexOutOfBoundsException e) {
 			sendHelp(sender);
 			return true;
@@ -33,6 +30,12 @@ public class MainCommand implements CommandExecutor {
 			}
 			if (args[0].equalsIgnoreCase("getCount") || args[0].equalsIgnoreCase("get")
 					|| args[0].equalsIgnoreCase("data")) {
+				try {
+					args[1].toLowerCase();
+				} catch (ArrayIndexOutOfBoundsException e) {
+					sender.sendMessage(ChatColor.RED + "Syntax: /asd get {player}");
+					return true;
+				} 
 				checkPerm(sender, "ASD.data");
 				String path = String.valueOf(args[1]);
 				if (!Bukkit.getOfflinePlayer(args[1]).hasPlayedBefore()) {
@@ -77,8 +80,8 @@ public class MainCommand implements CommandExecutor {
 									ChatColor.DARK_AQUA + "/asd ver|version - " + ChatColor.AQUA + "No permission",
 									ChatColor.DARK_AQUA + "/asd test Wo Rd S - " + ChatColor.AQUA + "ASD.test",
 									ChatColor.DARK_AQUA + "/asd get|getCount|data - " + ChatColor.AQUA + "ASD.perm",
-									ChatColor.DARK_AQUA + "/asd color|scheme" + ChatColor.DARK_AQUA + "ASD.color",
-									ChatColor.DARK_AQUA + "/asd reload | load" + ChatColor.DARK_AQUA + "ASD.load"
+									ChatColor.DARK_AQUA + "/asd color|scheme - " + ChatColor.DARK_AQUA + "ASD.color",
+									ChatColor.DARK_AQUA + "/asd reload | load - " + ChatColor.DARK_AQUA + "ASD.load"
 							
 							});
 					ASD.getInstance().getConfig().createSection("color1");
@@ -109,6 +112,12 @@ public class MainCommand implements CommandExecutor {
 				return true;
 			} 
 			if (args[0].equalsIgnoreCase("color") || args[0].equalsIgnoreCase("scheme")) {
+				try {
+					args[1].toLowerCase();
+				} catch (ArrayIndexOutOfBoundsException e) {
+					sender.sendMessage(ChatColor.RED + "Syntax: /asd color {colors}");
+					return true;
+				} 
 				checkPerm(sender, "ASD.color");
 				String[] colors = { "blue", "green", "aqua", "red", "pink", "yellow", "gray" };
 				String path1 = "color1";
