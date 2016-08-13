@@ -15,7 +15,7 @@ public class ASD extends JavaPlugin {
 	public static File DATA_FILE;
 	
 	private AIThread aiThread;
-	private static Main instance;
+	private static ASD instance;
 	private ChatListener chatListener;
 
 	public void onEnable() {
@@ -68,7 +68,7 @@ public class ASD extends JavaPlugin {
 		return aiThread;
 	}
 
-	public static Main getInstance() {
+	public static ASD getInstance() {
 		return instance;
 	}
 
