@@ -67,6 +67,9 @@
 				<configuration>
 				<source>1.7</source>
 				<target>1.7</target>
+				<descriptorRefs>
+					<descriptorRef>v0.0.1</descriptorRef>
+				</descriptorRefs>
 				</configuration>
 				</plugin>
 			</plugins>
