@@ -36,12 +36,12 @@ public class AIThread extends Thread {
 
 	public void run() {
 		try {
-			for (String word : Files.readAllLines(Main.BAD_WORD_FILE.toPath())) {
+			for (String word : Files.readAllLines(ASD.BAD_WORD_FILE.toPath())) {
 				if ((!word.startsWith("#")) && (!BLACKLIST.contains(word.toLowerCase())) && (!word.equals(""))) {
 					BLACKLIST.add(word.toLowerCase());
 				}
 			}
-			for (String word : Files.readAllLines(Main.DICTONARY_FILE.toPath())) {
+			for (String word : Files.readAllLines(ASD.DICTONARY_FILE.toPath())) {
 				if ((!word.startsWith("#")) && (!DICTONARY.contains(word.toLowerCase())) && (!word.equals(""))) {
 					DICTONARY.add(word.toLowerCase());
 				}
