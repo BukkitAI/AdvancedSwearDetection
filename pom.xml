@@ -68,7 +68,7 @@
 				<source>1.7</source>
 				<target>1.7</target>
 				<descriptorRefs>
-					<descriptorRef>v0.0.1</descriptorRef>
+					<descriptorRef>jar-with-dependencies</descriptorRef>
 				</descriptorRefs>
 				</configuration>
 				</plugin>
