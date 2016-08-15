@@ -77,7 +77,7 @@ public class CMDUtils {
 					if (sender.hasPermission(perms[j])) {
 						sender.sendMessage(commands[i]);
 					} else {
-						ASD.debug(sender.getName() + " did not perm" + perms[j]);
+						ASD.debug(sender.getName() + " did not have perm " + perms[j]);
 					}
 					i++;
 					j++;
