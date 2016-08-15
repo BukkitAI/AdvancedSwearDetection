@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkitai.advancedsweardetection.ai.AIThread;
-import org.bukkitai.advancedsweardetection.commands.MainCommand;
+import org.bukkitai.advancedsweardetection.commands.Main;
 import org.bukkitai.advancedsweardetection.commands.TabExecutors;
 import org.bukkitai.advancedsweardetection.listeners.ChatListener;
 
@@ -15,7 +15,7 @@ public class ASD extends JavaPlugin {
 	public static File DATA_FILE;
 	
 	private AIThread aiThread;
-	private static Main instance;
+	private static ASD instance;
 	private ChatListener chatListener;
 
 	public void onEnable() {
@@ -54,7 +54,7 @@ public class ASD extends JavaPlugin {
 
 		chatListener = new ChatListener();
 		getServer().getPluginManager().registerEvents(chatListener, getInstance());
-		this.getCommand("advancedsweardetection").setExecutor(new MainCommand());
+		this.getCommand("advancedsweardetection").setExecutor(new Main());
 		this.getCommand("advancedsweardetection").setTabCompleter(new TabExecutors());
 
 	}
@@ -68,7 +68,7 @@ public class ASD extends JavaPlugin {
 		return aiThread;
 	}
 
-	public static Main getInstance() {
+	public static ASD getInstance() {
 		return instance;
 	}
 

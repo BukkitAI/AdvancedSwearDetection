@@ -2,8 +2,6 @@ package org.bukkitai.advancedsweardetection.ai;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,12 +34,12 @@ public class AIThread extends Thread {
 
 	public void run() {
 		try {
-			for (String word : Files.readAllLines(Main.BAD_WORD_FILE.toPath())) {
+			for (String word : Files.readAllLines(ASD.BAD_WORD_FILE.toPath())) {
 				if ((!word.startsWith("#")) && (!BLACKLIST.contains(word.toLowerCase())) && (!word.equals(""))) {
 					BLACKLIST.add(word.toLowerCase());
 				}
 			}
-			for (String word : Files.readAllLines(Main.DICTONARY_FILE.toPath())) {
+			for (String word : Files.readAllLines(ASD.DICTONARY_FILE.toPath())) {
 				if ((!word.startsWith("#")) && (!DICTONARY.contains(word.toLowerCase())) && (!word.equals(""))) {
 					DICTONARY.add(word.toLowerCase());
 				}
@@ -117,13 +115,8 @@ public class AIThread extends Thread {
 	}
 
 	private void registerWord(String word) {
+		//TODO Reload the blacklist
 		BLACKLIST.add(word);
-		try {
-			Files.write(ASD.BAD_WORD_FILE.toPath(), Arrays.asList(new String[] { word }),
-					new OpenOption[] { StandardOpenOption.APPEND });
-		} catch (IOException e) {
-			ASD.getInstance().getLogger().log(Level.SEVERE, "Could not save '" + word + "' to BAD_WORD_FILE!", e);
-		}
 	}
 
 	public void addString(String toProcess) {

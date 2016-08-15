@@ -23,7 +23,7 @@ public class TabExecutors implements TabCompleter {
 		}
 		if (command.getName().equalsIgnoreCase("advancedsweardetection") && args[0].equalsIgnoreCase("color") || args[0].equalsIgnoreCase("scheme") && args.length == 2) {
 			List<String> scheme = new ArrayList<>();
-			String[] colors = { "blue", "green", "aqua", "red", "pink", "yellow", "gray" };
+			String[] colors = {"aqua" , "blue" , "gray" , "green", "red" , "pink" , "yellow"};
 			for (String stringColor : colors) {
 				scheme.add(stringColor);
 			}
