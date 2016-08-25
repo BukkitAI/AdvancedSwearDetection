@@ -1,12 +1,12 @@
 package org.bukkitai.advancedsweardetection;
 
-import java.io.File;
-
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkitai.advancedsweardetection.ai.AIThread;
 import org.bukkitai.advancedsweardetection.commands.Main;
 import org.bukkitai.advancedsweardetection.commands.TabExecutors;
 import org.bukkitai.advancedsweardetection.listeners.ChatListener;
+
+import java.io.File;
 
 public class ASD extends JavaPlugin {
 	public static File DICTONARY_FILE;
@@ -16,7 +16,6 @@ public class ASD extends JavaPlugin {
 	
 	private AIThread aiThread;
 	private static ASD instance;
-	private ChatListener chatListener;
 
 	public void onEnable() {
 		instance = this;
@@ -52,7 +51,7 @@ public class ASD extends JavaPlugin {
 		aiThread = new AIThread();
 		aiThread.start();
 
-		chatListener = new ChatListener();
+		ChatListener chatListener = new ChatListener();
 		getServer().getPluginManager().registerEvents(chatListener, getInstance());
 		this.getCommand("advancedsweardetection").setExecutor(new Main());
 		this.getCommand("advancedsweardetection").setTabCompleter(new TabExecutors());
@@ -73,7 +72,7 @@ public class ASD extends JavaPlugin {
 	}
 
 	public static void debug(String msg) {
-		if ((boolean) getInstance().getConfig().get("debug", true)) {
+		if (getInstance().getConfig().getBoolean("debug", true)) {
 			getInstance().getLogger().info("[DEBUG] " + msg);
 		}
 	}

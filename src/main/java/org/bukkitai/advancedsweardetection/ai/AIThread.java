@@ -1,20 +1,16 @@
 package org.bukkitai.advancedsweardetection.ai;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.logging.Level;
-import java.util.regex.Pattern;
-
+import info.debatty.java.stringsimilarity.JaroWinkler;
 import org.bukkit.ChatColor;
 import org.bukkitai.advancedsweardetection.ASD;
 
-import info.debatty.java.stringsimilarity.JaroWinkler;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 public class AIThread extends Thread {
 	private static final Collection<String> TO_STRIP = new HashSet<>();
@@ -25,21 +21,21 @@ public class AIThread extends Thread {
 	private boolean doLookup = true;
 	private Queue<String> processingQueue = new ConcurrentLinkedQueue<>();
 	private long lastDBLookup = 0L;
-	public static final JaroWinkler jaroWinkler = new JaroWinkler();
+	public static final JaroWinkler JARO_WINKLER = new JaroWinkler();
 
 	static {
-		TO_STRIP.addAll(Arrays.asList(new String[] { "'", "\"", "_", "-", "+", "*", "[", "]", "{", "}", "\\", "|", ",",
-				".", "<", ">", "/", "?", ";", "#", "^", "%" }));
+		TO_STRIP.addAll(Arrays.asList("'", "\"", "_", "-", "+", "*", "[", "]", "{", "}", "\\", "|", ",",
+				".", "<", ">", "/", "?", ";", "#", "^", "%"));
 	}
 
 	public void run() {
 		try {
-			for (String word : Files.readAllLines(ASD.BAD_WORD_FILE.toPath())) {
+			for (String word : Files.readAllLines(ASD.BAD_WORD_FILE.toPath(), StandardCharsets.UTF_8)) {
 				if ((!word.startsWith("#")) && (!BLACKLIST.contains(word.toLowerCase())) && (!word.equals(""))) {
 					BLACKLIST.add(word.toLowerCase());
 				}
 			}
-			for (String word : Files.readAllLines(ASD.DICTONARY_FILE.toPath())) {
+			for (String word : Files.readAllLines(ASD.DICTONARY_FILE.toPath(), StandardCharsets.UTF_8)) {
 				if ((!word.startsWith("#")) && (!DICTONARY.contains(word.toLowerCase())) && (!word.equals(""))) {
 					DICTONARY.add(word.toLowerCase());
 				}
@@ -59,7 +55,7 @@ public class AIThread extends Thread {
 		}
 		if (!processingQueue.isEmpty()) {
 			ASD.debug("Queue!");
-			String poll = (String) processingQueue.poll();
+			String poll = processingQueue.poll();
 			String[] words = poll.split(Pattern.quote(" "));
 			for (int i = 0; i < words.length; i++) {
 				String finalWord = "";
@@ -89,14 +85,17 @@ public class AIThread extends Thread {
 							i = j;
 							continue;
 						}
-						double simlarity = 100 - (jaroWinkler.distance(finalWord, bad) * 100);
+						double simlarity = 100 - (JARO_WINKLER.distance(finalWord, bad) * 100);
 						ASD.debug("Matched: " + simlarity + " for word " + bad);
 						if (simlarity >= ASD.getInstance().getConfig().getDouble("similarity", 75)) {
 							ASD.debug("Match");
 							registerWord(finalWordWithSpaces);
+                            //noinspection UnusedAssignment
 							i = j;
+                            //noinspection UnusedAssignment
 							finalWord = "";
-							finalWordWithSpaces = "";
+                            //noinspection UnusedAssignment
+                            finalWordWithSpaces = "";
 							return;
 						}
 					}
@@ -115,7 +114,6 @@ public class AIThread extends Thread {
 	}
 
 	private void registerWord(String word) {
-		//TODO Reload the blacklist
 		BLACKLIST.add(word);
 	}
 

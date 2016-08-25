@@ -7,7 +7,7 @@
 #                   
 # Made by the BukkitAI team!
 name: AdvancedSwearDetection
-version: 0.0.1-ALPHA
+version: ${project.version}
 description: AI designed to automatically learn filter bypasses and block them in the future.
 author: BukkitAI Team
 authors: ['bwfcwalshy', 'ArsenArsen', 'TheEnderCrafter9']

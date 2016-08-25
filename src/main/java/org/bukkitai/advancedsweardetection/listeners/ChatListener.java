@@ -25,7 +25,7 @@ public class ChatListener implements Listener {
 				data.getYaml().set(path, playerCount + 1);
 				data.saveYaml();
 				data.reloadYaml();
-			} catch (NullPointerException e) {
+			} catch (NullPointerException ignored) {
 				int playerCount = data.getYaml().getInt(path);
 				ASD.debug(event.getPlayer().getName() + " " + String.valueOf(playerCount));
 				data.getYaml().createSection(path);
