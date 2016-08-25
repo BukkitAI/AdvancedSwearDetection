@@ -155,14 +155,14 @@ public class CMDUtils {
         }
     }
 
-    private static void sendDefaultColorAndSet(String[] text, CommandSender sender) {
+    public static void sendDefaultColorAndSet(String[] text, CommandSender sender) {
         for (String s : text) {
             sender.sendMessage(ChatColor.DARK_AQUA + s);
         }
         saveDefaultColor();
     }
 
-    private static void saveDefaultColor() {
+    public static void saveDefaultColor() {
         ASD.getInstance().getConfig().set("color1", "3");
         ASD.getInstance().getConfig().set("color2", "a");
         ASD.getInstance().saveConfig();
