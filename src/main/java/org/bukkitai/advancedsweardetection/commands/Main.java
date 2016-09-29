@@ -139,17 +139,85 @@ public class Main implements CommandExecutor {
          * SCHEME COMMAND
          */
         if (args[0].equalsIgnoreCase("color") || args[0].equalsIgnoreCase("scheme")) {
-            try {
-                args[0].toLowerCase();
-                args[1].toLowerCase();
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-                sender.sendMessage(ChatColor.RED + "Syntax: /asd color {colors}");
-                return true;
-            }
-            if (!CMDUtils.checkPerm(sender, "ASD.color")) return true;
-            String[] colors = {"blue", "green", "aqua", "red", "pink", "yellow", "gray"};
             String path1 = "color1";
             String path2 = "color2";
+            if (args.length != 2) { sender.sendMessage(ChatColor.RED + "Syntax: /asd color {colors}");
+                                    return true;
+                                  }
+            }
+            if (!CMDUtils.checkPerm(sender, "ASD.color")) return true;
+            String[] colors = {"blue", "green", "aqua", "red", "pink", "yellow", "gray", "random"};
+            if (args[1].equalsIgnoreCase(colors[(colors.length - 1)])) {
+            //IMPORT!!! also you might need to fix this. :D
+            int randomInt() = new Random().nextInt(16) + 1;
+              switch (randomInt) {
+                case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9:
+                ASD.getInstance().getConfig.set(path1, String.valueOf(randomInt));
+                case 10: //'a'
+                ASD.getInstance().getConfig.set(path1, "a");
+                case 11 //'b'
+                ASD.getInstance().getConfig.set(path1, "b");               
+                case 12 //'c'
+                ASD.getInstance().getConfig.set(path1, "c");                
+                case 13 //'d'
+                ASD.getInstance().getConfig.set(path1, "d");                
+                case 14 //'e'
+                ASD.getInstance().getConfig.set(path1, "e");
+                case 15 //'f'
+                ASD.getInstance().getConfig.set(path1, "f");
+                case 16 //'l'
+                ASD.getInstance().getConfig.set(path1, "l");
+                case 10: //'m'
+                ASD.getInstance().getConfig.set(path1, "m");
+                case 10: //'n'
+                ASD.getInstance().getConfig.set(path1, "n");
+                case 10: //'o'
+                ASD.getInstance().getConfig.set(path1, "o");
+                }
+            randomInt() = new Random().nextInt(16) + 1;
+            switch (randomInt) {
+                case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9:
+                ASD.getInstance().getConfig.set(path1, String.valueOf(randomInt));
+                case 10: //'a'
+                ASD.getInstance().getConfig.set(path1, "a");
+                case 11 //'b'
+                ASD.getInstance().getConfig.set(path1, "b");               
+                case 12 //'c'
+                ASD.getInstance().getConfig.set(path1, "c");                
+                case 13 //'d'
+                ASD.getInstance().getConfig.set(path1, "d");                
+                case 14 //'e'
+                ASD.getInstance().getConfig.set(path1, "e");
+                case 15 //'f'
+                ASD.getInstance().getConfig.set(path1, "f");
+                case 16 //'l'
+                ASD.getInstance().getConfig.set(path1, "l");
+                case 10: //'m'
+                ASD.getInstance().getConfig.set(path1, "m");
+                case 10: //'n'
+                ASD.getInstance().getConfig.set(path1, "n");
+                case 10: //'o'
+                ASD.getInstance().getConfig.set(path1, "o");
+                }
+
+                try {
+                    ASD.getInstance().getConfig().set(path1, "1");
+                    ASD.getInstance().getConfig().set(path2, "9");
+                    ASD.getInstance().saveConfig();
+                    ASD.getInstance().reloadConfig();
+                    sender.sendMessage(ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "Set pallete to " + args[1]);
+                } catch (NullPointerException ignored) {
+                    ASD.getInstance().getConfig().createSection("color1");
+                    ASD.getInstance().getConfig().createSection("color2");
+                    ASD.getInstance().getConfig().set("color1", "1");
+                    ASD.getInstance().getConfig().set("color2", "9");
+                    ASD.getInstance().saveConfig();
+                    ASD.getInstance().reloadConfig();
+                    sender.sendMessage(ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "Set pallete to " + args[1]);
+
+                }
+                return true;
+            }
             if (args[1].equalsIgnoreCase(colors[0])) {
                 try {
                     ASD.getInstance().getConfig().set(path1, "1");
