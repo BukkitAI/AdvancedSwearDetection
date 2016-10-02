@@ -14,9 +14,7 @@ public class Main implements CommandExecutor {
     @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        try {
-            args[0].toLowerCase();
-        } catch (ArrayIndexOutOfBoundsException ignored) {
+        if (args.length == 0) {
             CMDUtils.sendHelp(sender);
             return true;
         }
@@ -26,24 +24,21 @@ public class Main implements CommandExecutor {
          */
         if (args[0].equalsIgnoreCase("getCount") || args[0].equalsIgnoreCase("get")
                 || args[0].equalsIgnoreCase("data")) {
-            try {
-                args[1].toLowerCase();
-            } catch (ArrayIndexOutOfBoundsException ignored) {
+            if (args.length < 2) {
                 sender.sendMessage(ChatColor.RED + "Syntax: /asd get {player}");
                 return true;
             }
             if (!CMDUtils.checkPerm(sender, "ASD.data")) return true;
             String path = String.valueOf(args[1]);
             if (!Bukkit.getOfflinePlayer(args[1]).hasPlayedBefore()) {
-                sender.sendMessage(
-                        ChatColor.DARK_RED + "ERROR: " + ChatColor.RED + "That player has never played before!");
+                sender.sendMessage(ChatColor.DARK_RED + "ERROR: " + ChatColor.RED + "That player has never played before!");
                 return true;
             }
             try {
                 data.getYaml().getInt(path);
                 data.saveYaml();
                 data.reloadYaml();
-            } catch (NullPointerException ignored) {
+            } catch (NullPointerException nonexistant) {
                 data.getYaml().createSection(path);
                 data.saveYaml();
                 data.reloadYaml();
@@ -148,8 +143,14 @@ public class Main implements CommandExecutor {
             if (!CMDUtils.checkPerm(sender, "ASD.color")) return true;
             String[] colors = {"blue", "green", "aqua", "red", "pink", "yellow", "gray", "random"};
             if (args[1].equalsIgnoreCase(colors[(colors.length - 1)])) {
+//                    if (ASD)
+                    ASD.getInstance().getConfig().createSection("color1");
+                    ASD.getInstance().getConfig().createSection("color2");
+                    ASD.getInstance().getConfig().set("color1", "1");
+                    ASD.getInstance().getConfig().set("color2", "9");
+
             //IMPORT!!! also you might need to fix this. :D
-            int randomInt() = new Random().nextInt(16) + 1;
+            int randomInt() = new Random().nextInt(19) + 1;
               switch (randomInt) {
                 case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9:
                 ASD.getInstance().getConfig.set(path1, String.valueOf(randomInt));
@@ -192,21 +193,17 @@ public class Main implements CommandExecutor {
                 ASD.getInstance().getConfig.set(path1, "f");
                 case 16 //'l'
                 ASD.getInstance().getConfig.set(path1, "l");
-                case 10: //'m'
+                case 17: //'m'
                 ASD.getInstance().getConfig.set(path1, "m");
-                case 10: //'n'
+                case 18: //'n'
                 ASD.getInstance().getConfig.set(path1, "n");
-                case 10: //'o'
+                case 19: //'o'
                 ASD.getInstance().getConfig.set(path1, "o");
                 }
 
-                try {
-                    ASD.getInstance().getConfig().set(path1, "1");
-                    ASD.getInstance().getConfig().set(path2, "9");
                     ASD.getInstance().saveConfig();
                     ASD.getInstance().reloadConfig();
                     sender.sendMessage(ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "Set pallete to " + args[1]);
-                } catch (NullPointerException ignored) {
                     ASD.getInstance().getConfig().createSection("color1");
                     ASD.getInstance().getConfig().createSection("color2");
                     ASD.getInstance().getConfig().set("color1", "1");
@@ -214,8 +211,6 @@ public class Main implements CommandExecutor {
                     ASD.getInstance().saveConfig();
                     ASD.getInstance().reloadConfig();
                     sender.sendMessage(ChatColor.getByChar(ASD.getInstance().getConfig().getString("color1").charAt(0)) + "Set pallete to " + args[1]);
-
-                }
                 return true;
             }
             if (args[1].equalsIgnoreCase(colors[0])) {
