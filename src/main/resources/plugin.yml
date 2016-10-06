@@ -10,6 +10,7 @@ name: AdvancedSwearDetection
 version: ${project.version}
 description: AI designed to automatically learn filter bypasses and block them in the future.
 author: BukkitAI Team
+# Not to be a jerk; but Walshy really needs to do something.
 authors: ['bwfcwalshy', 'ArsenArsen', 'TheEnderCrafter9']
 main: org.bukkitai.advancedsweardetection.ASD
 commands:
